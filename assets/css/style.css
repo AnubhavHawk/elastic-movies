@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+:root{
+    --elastic-blue: #00bfb2;
+    --elastic-yellow: #ffd100;
+    --elastic-green: #7dcc04;
+    --elastic-pink: #ff3a9a;
+}
+
+
+.text-e-blue{
+    color: var(--elastic-blue);
+}
+.text-e-yellow{
+    color: var(--elastic-yellow);
+}
+.text-e-green{
+    color: var(--elastic-green);
+}
+.text-e-pink{
+    color: var(--elastic-pink);
+}
+.bg-e-blue{
+    background-color: var(--elastic-blue);
+}
+.bg-e-yellow{
+    background-color: var(--elastic-yellow);
+}
+.bg-e-green{
+    background-color: var(--elastic-green);
+}
+.bg-e-pink{
+    background-color: var(--elastic-pink);
+}
+
+
+
+body{
+    font-family: 'Roboto';
+}
+#nav-img{
+    height: 70px;
+    width: 70px;
+	transition: all 0.5s ease-in-out!important;
+}
+.nav-search-bar{
+    width: 500px;
+}
+.nav-search-bar button{
+    border: none;
+    box-shadow: 0 0 0px 1px #b3b3b3;
+    border-radius: 2px;
+    padding: 2px 10px;
+    cursor: pointer;
+    margin-left: -5px;
+    background: #d2d2d2;
+}
+.nav-search-bar button:hover{
+    color:var(--elastic-pink)!important;
+}
+#nav-search{
+    /* background: #d2d2d2; */
+    width: 50%;
+    transition: all 0.2s ease-out;
+    border: none;
+    box-shadow: 0 0 0px 1px #b3b3b3;
+    border-radius: 2px;
+    padding: 2px 10px;
+    color: var(--elastic-pink);
+    font-weight: bold;
+    letter-spacing: 1px;;
+}
+#nav-search:focus{
+    width: 80%;
+}
+#suggestion-box{
+    display: none;
+    border:1px solid white;
+    border-radius: 3px;
+    /* height: 100px; */
+    width: 33%;
+    right:5%;
+    background-color: #efefef;
+    position: absolute;
+    z-index: 2;
+}
+ul{
+    padding: 0;
+}
+ul li{
+    color:black;
+    text-align: left;
+    list-style-type: none;
+    padding: 5px;
+    padding-left: 10px;
+    margin-bottom: 2px;
+    border-bottom: 2px solid white;
+}
+#suggestion-box ul li:hover{
+    /* transition: all 0.2s ease-in; */
+    cursor: pointer;
+    color: white;
+    background-color: var(--elastic-pink);
+}
+
+
+
+/* ----------------HOme page ----------- */
+.tag:hover{
+    background-color: var(--elastic-pink);
+}
+.tag a:hover{
+    text-decoration: none!important;
+}
+
+#movie-container{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    /* align-items: center; */
+}
+#movie-container > div{
+    width: 33%;
+}
+
+/* --------------Search Page starts--------- */
+#toggle-tags{
+    cursor: pointer;
+    display: block;
+}
+#rating input{
+    width: 40%;
+}
+#search-btn{
+    width: 60%;
+    transition: all 0.3s ease-in;
+    cursor: pointer;
+}
+#search-btn:hover{
+    box-shadow: 1px 2px 6px 0px #a3a3a3;
+}
+#tag-suggestion{
+    width: 120%;
+}
+.tag-suggestion-item:hover{
+    cursor: pointer;
+    background: var(--elastic-yellow);
+}
+/* --------------Search Page ends--------- */
