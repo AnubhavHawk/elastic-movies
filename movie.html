@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Elastic Movies</title>
+</head>
+<body>
+    
+    <!-- Navbar starts -->
+    <nav class="navbar navbar-expand-lg sticky-top pl-sm-5 pr-sm-5 pt-sm-4 pb-sm-4 pt-md-1 pb-md-1 navbar-height navbar bg-white" style="box-shadow:  2px 0 5px 3px #efefef;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">    
+                <img src="assets/img/logo.png" id="nav-img" alt="">
+                <b class="text-blue">Elastic Movies</b>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown" style="justify-content: flex-end;">
+                <ul class="navbar-nav">
+                    <li class="nav-item pl-1 pr-2">
+                        <div class="nav-search-bar text-right">
+                            <input type="text" id="nav-search"  placeholder="Type to search..." />
+                            <button class="text-white" id="nav-search-btn"><i class="fa fa-search"></i></button>
+                            <div id="suggestion-box"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar ends -->
+
+    <div id="movie-banner">
+        <div class="movie-info pl-4 pt-3 pb-3 pr-4">
+            <h1 class="text-e-blue font-weight-bold m-0" id="movie-name">Avengers: Endgame</h1>
+            <hr class="mb-0">
+            <div class="d-flex justify-content-between align-items-center">
+                <span>
+                    Rating: <b id="rating-info">7.4</b>
+                </span>
+                <span>
+                    Released in: <b id="release-year">2017</b>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-light row p-5">
+        <div class="col-md-8 p-4">
+            <h1 class="text-e-green">Movie Summary</h1>
+            <p id="movie-description" class="text-justify">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit labore provident blanditiis accusantium? Architecto suscipit optio sed et, repellendus perferendis sit atque, possimus, beatae sequi eligendi odit? Nihil, quibusdam impedit?Mollitia, molestias aut nobis deserunt odit distinctio quisquam inventore, modi quasi maiores asperiores facilis laborum incidunt accusamus delectus! Earum nam maxime molestiae tenetur temporibus est dignissimos voluptas expedita optio blanditiis.
+            </p>
+        </div>
+        <div class="col-md-4 p-5">
+            <h4 class="text-e-yellow mb-4">Movie Cast</h4>
+            <div id="movie-cast">
+                <div class="actor d-flex align-items-center pb-2 m-2">
+                    <img src="assets/img/logo.png" class="actor-img rounded-circle mr-2 border border-dashed" alt="">
+                    <b>Robert Brown</b>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://kit.fontawesome.com/09dc997e5f.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="assets/js/search-bar.js"></script>
+    <script src="assets/js/movie.js"></script>
+</body>
+</html>

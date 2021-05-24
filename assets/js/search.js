@@ -8,6 +8,13 @@ const tagSuggestionBlock = document.getElementById('tag-suggestion');
 const tagsBox = document.getElementById('tags-box');
 const tagAddBtn = document.getElementById('tag-add-btn');
 const searchBtn = document.getElementById('search-btn');
+const minRatingInput = document.getElementById('min-rating');
+const maxRatingInput = document.getElementById('max-rating');
+const movieResultsBlock = document.getElementById('movie-results');
+const tagDetails = document.getElementById('tag-details');
+const yearDetails = document.getElementById('year-details');
+
+
 
 // ---------Data to be used when we hit the search button
 // var tagPayLoad = "";
@@ -27,13 +34,59 @@ tagsToggle.addEventListener('click', () => {
         tagsInfo.style.display = 'block';
 })
 
+let tagsBar = ()=>{
+    if(localStorage.keyword){
+        keywordBlock.innerHTML = localStorage.keyword;
+        
+        // Get the results by Calling API.
+        
+    fetch("http://localhost:9200/movies/_search", {
+        method: 'POST',
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            _source: ["name", "description", "img"],
+            query: {
+              match: {
+                  name: localStorage.q
+              }
+            }
+        })
+    })
+    .then(res => res.json())
+    .then(
+        data => {
+                let movies = data.hits.hits
+                let moviesHTML = "";
+                movies.forEach(movie => {
+                    moviesHTML += `
+                    <div class="col-12 mb-3 bg-white rounded border p-3">
+                        <div class="d-flex">
+                            <img src="assets/img/movies/${movie._source.img}" alt="" class="rounded mr-3" height="30px" width="30px">
+                            <h3><a href="movie.html?id=${movie._id}">${movie._source.name}</a></h3>
+                        </div>
+                        <hr/>
+                        <p>${movie._source.description}</p>
+                    </div>`;
+                })
+                movieResultsBlock.innerHTML = moviesHTML;
+            }
+        )
+    }
+    else{
+        keywordBlock.innerHTML = "Search Details"
+    }
+}
+
 let minRating, maxRating;
-document.getElementById('min-rating').addEventListener('change', e => {
+minRatingInput.addEventListener('change', e => {
     minRating = e.target.value;
     queryPayload.minRating = minRating;
 })
 
-document.getElementById('max-rating').addEventListener('change', e => {
+maxRatingInput.addEventListener('change', e => {
     maxRating = e.target.value;
     queryPayload.maxRating = maxRating;
 })
@@ -137,24 +190,147 @@ tagSearch.addEventListener('keyup', e => {
 // -------- Query to ES----------
 // must = [0] = "actor", [1] = "releaseYear"
 let searchPayload = {
+    _source: ["name", "description", "img"],
     query: {
       bool: {
-        must: [
-          {
-            match: {
-              actors: "dave"
-            }
-          },
-          {
-            match: {
-              releaseYear: 2018
-            }
-          }
-        ]
+        must: []
       }
     }
 }
 
+tagsBar(); // In case page is opened from the search button
+
+let resetAdvanceSearch = () => {
+    searchPayload = {
+        _source: ["name", "description", "img"],
+        query: {
+          bool: {
+            must: []
+          }
+        }
+    }
+    localStorage.removeItem('keyword');
+    localStorage.removeItem('q');
+    tagsBar();
+    yearValue.innerHTML = "";
+    yearSlider.value = 0;
+    minRatingInput.value = "";
+    maxRatingInput.value = "";
+    tagSearch.value = "";
+    tagsBox.innerHTML = "";
+}
+
+
 searchBtn.addEventListener('click', e => {
-  console.log(queryPayload)  
+    let tempMust = searchPayload.query.bool.must;
+    let index = 0;
+    if(queryPayload.yearPayload){
+        while(searchPayload.query.bool.must[index]){
+            if(searchPayload.query.bool.must[index].match.releaseYear)
+                break;
+            index++;
+        }
+        searchPayload.query.bool.must[index] = {
+                match: {
+                  releaseYear: queryPayload.yearPayload
+                }
+            }
+    }
+    if(queryPayload.tagPayload){
+        index = 0;
+        while(searchPayload.query.bool.must[index]){
+            if(searchPayload.query.bool.must[index].match && searchPayload.query.bool.must[index].match.tags)
+                break;
+            index++;
+        }
+        searchPayload.query.bool.must[index] = {
+            match: {
+            tags: queryPayload.tagPayload
+            }
+        }
+    }
+    if(queryPayload.minRating){
+        if(searchPayload.query.bool.must[0] && searchPayload.query.bool.must[0].range){
+            searchPayload.query.bool.must[0].range.rating.gte = queryPayload.minRating;
+        }
+        else if(searchPayload.query.bool.must[1] && searchPayload.query.bool.must[1].range){
+            searchPayload.query.bool.must[1].range.rating.gte = queryPayload.minRating;
+        }else if(searchPayload.query.bool.must[2] && searchPayload.query.bool.must[2].range){
+            searchPayload.query.bool.must[2].range.rating.gte = queryPayload.minRating;
+        }
+        else{
+            searchPayload.query.bool.must[tempMust.length] = {
+                range: {
+                rating: {
+                    "gte": queryPayload.minRating
+                }
+                }
+            }
+        }
+    }
+    if(queryPayload.maxRating){
+        if(searchPayload.query.bool.must[0] && searchPayload.query.bool.must[0].range){
+            searchPayload.query.bool.must[0].range.rating.lte = queryPayload.maxRating;
+        }
+        else if(searchPayload.query.bool.must[0] && searchPayload.query.bool.must[1].range){
+            searchPayload.query.bool.must[1].range.rating.lte = queryPayload.maxRating;
+        }else if(searchPayload.query.bool.must[0] && searchPayload.query.bool.must[2].range){
+            searchPayload.query.bool.must[2].range.rating.lte = queryPayload.maxRating;
+        }
+        else{
+            searchPayload.query.bool.must[tempMust.length] = {
+                range: {
+                    rating: {
+                        "lte": queryPayload.maxRating
+                        }
+                }
+            }
+        }
+    }
+    fetch("http://localhost:9200/movies/_search", {
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(searchPayload)
+        })
+        .then(res => res.json())
+        .then(
+            data => {
+                tagDetails.innerHTML = ""; // Clear Old search values
+                yearDetails.innerHTML = ""; // Clear Old search values
+                let movies = data.hits.hits
+                let moviesHTML = "";
+                movies.forEach(movie => {
+                    moviesHTML += `
+                    <div class="col-12 mb-3 bg-white rounded border p-3">
+                        <div class="d-flex">
+                            <img src="assets/img/movies/${movie._source.img}" alt="" class="rounded mr-3" height="30px" width="30px">
+                            <h3><a href="movie.html?id=${movie._id}">${movie._source.name}</a></h3>
+                        </div>
+                        <hr/>
+                        <p>${movie._source.description}</p>
+                    </div>`;
+                })
+                movieResultsBlock.innerHTML = moviesHTML;
+
+                // Show tag details and Year details in the search info block.
+                if(queryPayload.tagList.length > 0){
+                    tagDetails.innerHTML = "<h5 class='font-weight-bold'>Tags:</h5>";
+                    queryPayload.tagList.forEach(tag => {
+                        tagDetails.innerHTML += `<span class="bg-e-yellow text-capitalize mb-1 rounded pl-2 pr-2 mr-1">${tag}</span>`;
+                    })
+                }
+                if(queryPayload.yearPayload){
+                    yearDetails.innerHTML = "<h5 class='mt-2 font-weight-bold'>Release Year</h5>" + queryPayload.yearPayload;
+                }
+                // Reset the queryPayload object.
+                tagList.clear();
+                queryPayload = {};
+                queryPayload.tagList = [];
+                resetAdvanceSearch();
+            }
+        )
+    console.log(JSON.stringify(searchPayload))
 })

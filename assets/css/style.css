@@ -128,6 +128,9 @@ ul li{
     cursor: pointer;
     display: block;
 }
+#tags-info{
+    display: none;
+}
 #rating input{
     width: 40%;
 }
@@ -147,3 +150,40 @@ ul li{
     background: var(--elastic-yellow);
 }
 /* --------------Search Page ends--------- */
+
+
+/* --------------Movie page starts-------- */
+#movie-banner{
+    background: url('../img/movies/2.jpg');
+    height: 70vh;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.movie-info{
+    background-color: #fff;
+    width: 60%;
+    position: absolute;
+    top: 60%;
+    left: 1%;
+    border-radius: 4px;
+    box-shadow: 0 0 6px 0px #c3c3c3;
+}
+#rating-info{
+    font-size: 30px;
+}
+.actor{
+    border-bottom: 1px dashed var(--elastic-pink);
+    cursor: pointer;
+}
+.actor-img{
+    height: 30px;
+    width: 30px;
+    transition: all 0.2s ease-in;
+}
+.actor:hover > .actor-img{
+    height: 35px;
+    width: 35px;
+}
+/* --------------Movie page ends-------- */

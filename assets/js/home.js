@@ -28,7 +28,7 @@ fetch("http://localhost:9200/movies/_search", {
         console.log(tags)
         if(tags.size > 0){
             tags.forEach(element => {
-                tagHTML += `<span class="bg-e-blue text-white mr-2 pl-2 pr-2 m-1 text-capitalize tag rounded"><a href="search.php?tag=${element}" class="text-white">${element}</a></span>`;
+                tagHTML += `<span class="bg-e-blue text-white mr-2 pl-2 pr-2 m-1 text-capitalize tag rounded"><a href="search.html?tag=${element}" class="text-white">${element}</a></span>`;
             });
         }
         else{

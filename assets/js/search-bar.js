@@ -44,7 +44,10 @@ navSearchBtn.addEventListener('click', () => {
         alert("Please enter a keyword to search");
     }
     else{
-        window.location.href = "search.php?q="+searchText;
+        localStorage.setItem('keyword', searchText);
+        searchText = searchText.replace(/[^a-zA-Z ]/g, "");
+        localStorage.setItem('q', searchText);
+        window.location.href = "search.html";
     }
 })
 
